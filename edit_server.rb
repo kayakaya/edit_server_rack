@@ -18,19 +18,21 @@ class EditServer
     end
   end
 
+  def status_and_body_to_response(status, body)
+    [status, {'Content-Type' => 'text/plain charset=utf-8'}, [body]]
+  end
+
   def status(env)
-    res = Rack::Response.new
-    res.status = 200
-    res['Content-Type'] = 'text/plain; charset=utf-8'
-    res.write("edit-server is running.\n")
-    res.finish
+    # this status means application status, not http protocol.
+    status_and_body_to_response(200, "edit-server is running.\n")
   end
 
   def edit(env)
-    res = Rack::Response.new
     begin
       temp_file = Tempfile.new('editwith_')
-      temp_file << StringIO.new(env['rack.input'].read).string
+      unless env['rack.input'].nil?
+        temp_file << StringIO.new(env['rack.input'].read).string
+      end
       temp_file.close(false)
 
       system(@editor, temp_file.path)
@@ -39,19 +41,14 @@ class EditServer
       edited_str = temp_file.read
       temp_file.close(true)
 
-      res.status = 200
-      res['Content-Type'] = 'text/plain; charset=utf-8'
-      res.write(edited_str)
-      res.finish
-    rescue Errno::EXXX => err
+      status_and_body_to_response(200, edited_str)
+
+    rescue Errno::ENOENT => err
       puts err
       temp_file.close(true)
     rescue IOError => err
-      res.status = 500
-      res['Content-Type'] = 'text/plain; charset=utf-8'
-      res.write('Internal Server Error')
-      res.finish
       puts err
+      status_and_body_to_response(500, 'Internal Server Error')
     end
   end
 end
