@@ -1,4 +1,4 @@
-ENV['EMACS_CHROME_EDITOR_PATH'] = '/Users/kayakaya/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
+ENV['EMACS_CHROME_EDITOR_PATH'] = '/Applications/Emacs.app/Contents/MacOS/bin/emacsclient'
 
 require 'rubygems'
 require 'rack'
