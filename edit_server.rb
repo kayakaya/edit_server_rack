@@ -1,3 +1,8 @@
+#
+# Copyright (C) 2010, KAYA Satoshi <kayakaya@kayakaya.net>
+# You can redistribute it and/or modify it under GPL2.
+# This program is inspired from http://blog.monoweb.info/archives/384.
+#
 #!/usr/bin/env ruby
 
 require 'rubygems'
