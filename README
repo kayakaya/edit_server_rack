@@ -1,0 +1,9 @@
+== edit_server_rack
+
+Rack implementation of "edit server" for Edit with Emacs for Chrome.
+
+For more information about Edit with Emacs for Chrome, see http://github.com/stsquad/emacs_chrome
+
+== Run:
+
+   % rackup
